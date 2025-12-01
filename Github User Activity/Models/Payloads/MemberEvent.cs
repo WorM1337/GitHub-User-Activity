@@ -1,11 +1,14 @@
+using System.Text.Json;
+
 namespace Github_User_Activity.Models.Payloads;
 
-public class MemberEvent(string Action) : Payload
+public class MemberEvent(string action, JsonElement member) : Payload
 {
-    public string Action { get; init; } = Action;
-
-    public void Deconstruct(out string Action)
+    public string Action { get; init; }  = action;
+    public JsonElement Member { get; init; } = member;
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
+        return $"\tAction: {Action}" + "\n" +
+               $"\tMember: " + FormatJson(Member) + "\n";
     }
-} // TODO: member - object
+}

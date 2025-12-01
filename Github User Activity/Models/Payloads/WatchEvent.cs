@@ -1,11 +1,11 @@
 namespace Github_User_Activity.Models.Payloads;
 
-public class WatchEvent(string Action) : Payload
+public class WatchEvent(string action) : Payload
 {
-    public string Action { get; init; } = Action;
+    public string Action { get; init; } = action;
 
-    public void Deconstruct(out string Action)
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
+        return $"\tAction: {Action}\n";
     }
 }

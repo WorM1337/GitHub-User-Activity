@@ -4,4 +4,9 @@ public class CreateEvent(string @ref, string refType) : Payload
 {
     public string Ref { get; init; } = @ref;
     public string RefType { get; init; } = refType;
+    public override string GetFormattedInto()
+    {
+        return $"\tRef: {Ref}\n" +
+               $"\tRefType: {RefType}\n";
+    }
 }

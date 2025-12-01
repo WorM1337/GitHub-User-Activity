@@ -1,19 +1,19 @@
 namespace Github_User_Activity.Models.Payloads;
 
-public class PushEvent(long RepositoryId, long PushId, string Ref, string Head, string Before) : Payload
+public class PushEvent(long repositoryId, long pushId, string @ref, string head, string before) : Payload
 {
-    public long RepositoryId { get; init; } = RepositoryId;
-    public long PushId { get; init; } = PushId;
-    public string Ref { get; init; } = Ref;
-    public string Head { get; init; } = Head;
-    public string Before { get; init; } = Before;
+    public long RepositoryId { get; init; } = repositoryId;
+    public long PushId { get; init; } = pushId;
+    public string Ref { get; init; } = @ref;
+    public string Head { get; init; } = head;
+    public string Before { get; init; } = before;
 
-    public void Deconstruct(out long RepositoryId, out long PushId, out string Ref, out string Head, out string Before)
+    public override string GetFormattedInto()
     {
-        RepositoryId = this.RepositoryId;
-        PushId = this.PushId;
-        Ref = this.Ref;
-        Head = this.Head;
-        Before = this.Before;
+        return $"\tRepository Id: {RepositoryId}\n" +
+               $"\tPush Id: {PushId}\n" +
+               $"\tRef: {Ref}\n" +
+               $"\tHead: {Head}\n" +
+               $"\tBefore: {Before}\n";
     }
 }

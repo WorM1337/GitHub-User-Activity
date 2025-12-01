@@ -1,15 +1,17 @@
+using System.Text.Json;
+
 namespace Github_User_Activity.Models.Payloads;
 
-public class IssueCommentEvent(string Action, string Issue, string Comment) : Payload
+public class IssueCommentEvent(string action, JsonElement issue, JsonElement comment) : Payload
 {
-    public string Action { get; init; } = Action;
-    public string Issue { get; init; } = Issue;
-    public string Comment { get; init; } = Comment;
+    public string Action { get; init; } = action;
+    public JsonElement Issue { get; init; } = issue;
+    public JsonElement Comment { get; init; } = comment;
 
-    public void Deconstruct(out string Action, out string Issue, out string Comment)
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
-        Issue = this.Issue;
-        Comment = this.Comment;
+        return $"\tAction: {Action}\n" +
+               $"\tIssue: {FormatJson(Issue)}\n" +
+               $"\tComment: {FormatJson(Comment)}\n";
     }
 }

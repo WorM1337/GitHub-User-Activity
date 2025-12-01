@@ -1,13 +1,12 @@
 namespace Github_User_Activity.Models.Payloads;
 
-public class DiscussionEvent(string Action, string Discussion) : Payload
+public class DiscussionEvent(string action, string discussion) : Payload
 {
-    public string Action { get; init; } = Action;
-    public string Discussion { get; init; } = Discussion;
-
-    public void Deconstruct(out string Action, out string Discussion)
+    public string Action { get; init; } = action;
+    public string Discussion { get; init; } = discussion;
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
-        Discussion = this.Discussion;
+        return $"\tAction: {Action}\n" +
+               $"\tDiscussion: {Discussion}\n";
     }
 }

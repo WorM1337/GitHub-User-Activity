@@ -1,12 +1,15 @@
+using System.Text.Json;
+
 namespace Github_User_Activity.Models.Payloads;
 
-public class ReleaseEvent(string Action) : Payload
+public class ReleaseEvent(string action, JsonElement release) : Payload
 {
-    public string Action { get; init; } = Action;
+    public string Action { get; init; } = action;
+    public JsonElement Release { get; init; } = release;
 
-    public void Deconstruct(out string Action)
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
+        return $"\tAction: {Action}\n" +
+               "\tRelease: " + FormatJson(Release) + "\n";
     }
 }
-// TODO: release

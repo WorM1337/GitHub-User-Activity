@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Github_User_Activity.Models;
 using Github_User_Activity.Models.Payloads;
 
@@ -15,7 +16,7 @@ public class Program
         }
     
         var client = new HttpClient();
-        // magic words :)
+        // Github requires to add this headings to GET query
         client.DefaultRequestHeaders.Add("User-Agent", "RoadmapSH-Project");
         client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
     
@@ -24,29 +25,23 @@ public class Program
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                PropertyNameCaseInsensitive = true
-            };
+
+            var options = ConfigService.ReadSerializerOptions;
 
             var events = JsonSerializer.Deserialize<GitHubResponseModel[]>(json, options);
-
+            
             if (events == null)
             {
                 Console.WriteLine("No events found");
                 return;
             }
             
-            var payloadFabric = new PayloadFabric();
-            var messageService = new MessageService();
             foreach (var e in events)
             {
-                var payload = payloadFabric.GetPayloadByString(e.Type, e.Payload.GetRawText(), options); // TODO: прокидывать options - плохо
+                var payload = PayloadFabric.GetPayloadByString(e.Type, e.Payload.GetRawText());
                 if(payload == null)
                     throw new Exception("Error parsing payload");
-                var msg = messageService.GetResponse(e.Type, payload, e.CreatedAt);
+                var msg = MessageService.GetResponse(e.Type, payload, e.CreatedAt);
                 
                 Console.WriteLine(msg);
             }

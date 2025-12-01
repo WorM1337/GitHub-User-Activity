@@ -1,14 +1,17 @@
+using System.Text.Json;
+
 namespace Github_User_Activity.Models.Payloads;
 
-public class PullRequestEvent(string Action, long Number) : Payload
+public class PullRequestEvent(string action, long number, JsonElement pullRequest) : Payload
 {
-    public string Action { get; init; } = Action;
-    public long Number { get; init; } = Number;
+    public string Action { get; init; }  = action;
+    public long Number { get; init; }  = number;
+    public JsonElement PullRequest { get; init; }  =  pullRequest;
 
-    public void Deconstruct(out string Action, out long Number)
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
-        Number = this.Number;
+        return $"\tAction: {Action}" + "\n" +
+               $"\tNumber: {Number}" + "\n" +
+               $"\tPullRequest: " + FormatJson(PullRequest) + "\n";
     }
 }
-// TODO: pull_request, assignee, assignees, label, labels

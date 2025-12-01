@@ -1,15 +1,14 @@
+using System.Text.Json;
+
 namespace Github_User_Activity.Models.Payloads;
 
-public class IssuesEvent(string Action, string Issue) : Payload
+public class IssuesEvent(string action, JsonElement issue) : Payload
 {
-    public string Action { get; init; } = Action;
-    public string Issue { get; init; } = Issue;
-
-    public void Deconstruct(out string Action, out string Issue)
+    public string Action { get; init; } = action;
+    public JsonElement Issue { get; init; } = issue;
+    public override string GetFormattedInto()
     {
-        Action = this.Action;
-        Issue = this.Issue;
+        return $"\tAction: {Action}" + "\n" + 
+               $"\tIssue: " + FormatJson(Issue) + "\n";
     }
 }
-// Посмотреть насчет других параметров - там есть objects без подписей насчёт того, что именно они содержат
-// TODO: issue, assignee, assignees, label, labels

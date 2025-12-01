@@ -3,10 +3,11 @@ using Github_User_Activity.Models.Payloads;
 
 namespace Github_User_Activity;
 
-public class PayloadFabric
+public static class PayloadFabric
 {
-    public Payload? GetPayloadByString(string type, string payload, JsonSerializerOptions options)
+    public static Payload? GetPayloadByString(string type, string payload)
     {
+        var options = ConfigService.ReadSerializerOptions;
         switch (type)
         {
             case "CommitCommentEvent":

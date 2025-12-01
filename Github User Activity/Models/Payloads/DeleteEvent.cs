@@ -6,4 +6,11 @@ public class DeleteEvent(string @ref, string refType, string fullRef, string pus
     public string RefType { get; init; } = refType;
     public string FullRef { get; init; } = fullRef;
     public string PusherType { get; init; } = pusherType;
+    public override string GetFormattedInto()
+    {
+        return $"\tRef: {Ref}\n" +
+               $"\tRefType: {RefType}\n" + 
+               $"\tFullRef: {FullRef}\n" + 
+               $"\tPusherType: {PusherType}\n";
+    }
 }
